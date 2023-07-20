@@ -46,7 +46,7 @@ public class Field {
     }
   }
 
-  boolean open(){
+  public boolean open(){
     if (!open && !marked) {
       open = true;
       if (mineField) {
@@ -67,5 +67,16 @@ public class Field {
 
   public boolean isMarked(){
     return marked;
+  }
+
+  public void mineField() {
+    mineField = true;
+  }
+
+  public boolean isOpen() {
+    return open;
+  }
+  public boolean isClosed() {
+    return !isOpen();
   }
 }

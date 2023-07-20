@@ -1,5 +1,6 @@
 package com.thonwelling.tests.models;
 
+import com.thonwelling.exceptions.ExplosionException;
 import com.thonwelling.models.Field;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -66,5 +67,53 @@ public class TestField {
     field.toggleMarkup();
     field.toggleMarkup();
     assertFalse(field.isMarked());
+  }
+
+  @Test
+  void testOpenUnminedAndUnmarked() {
+    assertTrue(field.open());
+  }
+  @Test
+  void testOpenUnminedButMarked() {
+    field.toggleMarkup();
+    assertFalse(field.open());
+  }
+  @Test
+  void testOpenMinedAndMarked() {
+    field.toggleMarkup();
+    field.mineField();
+    assertFalse(field.open());
+  }
+  @Test
+  void testOpenMinedAndUnMarked() {
+    field.mineField();
+   assertThrows(ExplosionException.class, () -> {
+     field.open();
+   });
+  }
+  @Test
+  void testOpenWithNeigbors() {
+    Field field11 = new Field(1, 1);
+    Field field22 = new Field(2, 2);
+
+    field22.addNeighborField(field11);
+    field.addNeighborField(field22);
+
+    field.open();
+    assertTrue(field22.isOpen() && field11.isOpen());
+  }
+  @Test
+  void testOpenWithNeigbors2() {
+    Field field11 = new Field(1, 1);
+    Field field12 = new Field(1, 1);
+    field12.mineField();
+
+    Field field22 = new Field(2, 2);
+    field22.addNeighborField(field11);
+    field22.addNeighborField(field12);
+
+    field.addNeighborField(field22);
+    field.open();
+    assertTrue(field22.isOpen() && field11.isClosed());
   }
 }

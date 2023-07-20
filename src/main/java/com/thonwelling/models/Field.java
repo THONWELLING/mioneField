@@ -1,5 +1,7 @@
 package com.thonwelling.models;
 
+import com.thonwelling.exceptions.ExplosionException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,5 +38,34 @@ public class Field {
     } else {
       return false;
     }
+  }
+
+  public void toggleMarkup() {
+    if(!open) {
+      marked = !marked;
+    }
+  }
+
+  boolean open(){
+    if (!open && !marked) {
+      open = true;
+      if (mineField) {
+        throw new ExplosionException();
+      }
+      if (safeNeighborhood()) {
+        neighborFields.forEach(Field::open);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  boolean safeNeighborhood(){
+    return neighborFields.stream().noneMatch(neighbors -> neighbors.mineField);
+  }
+
+  public boolean isMarked(){
+    return marked;
   }
 }

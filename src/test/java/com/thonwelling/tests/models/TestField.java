@@ -49,4 +49,22 @@ public class TestField {
     boolean result = field.addNeighborField(neighbor);
     assertFalse(result);
   }
+
+  @Test
+  void defaultTestValueOfTheMarkedAttribute() {
+    assertFalse(field.isMarked());
+  }
+
+  @Test
+  void testToggleMarkup() {
+    field.toggleMarkup();
+    assertTrue(field.isMarked());
+  }
+
+  @Test
+  void testToggleMarkupTwiceCalled(){
+    field.toggleMarkup();
+    field.toggleMarkup();
+    assertFalse(field.isMarked());
+  }
 }

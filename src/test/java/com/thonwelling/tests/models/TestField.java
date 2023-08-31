@@ -116,4 +116,44 @@ public class TestField {
     field.open();
     assertTrue(field22.isOpen() && field11.isClosed());
   }
+
+  @Test
+  public void goalAchieved() {
+    Field field = new Field(0, 0);
+    field.mineField();
+    assertFalse(field.goalAchieved());
+    field.isMarked();
+    assertFalse(field.goalAchieved());
+  }
+
+  @Test
+  void minesInTheNeighborhood() {
+    Field field1 = new Field(0, 0);
+    Field field2 = new Field(1, 0);
+    Field field3 = new Field(0, 1);
+
+    field1.addNeighborField(field2);
+    field1.addNeighborField(field3);
+    field2.mineField();
+
+    assertEquals(1, field1.minesInTheNeighborhood());
+  }
+
+  @Test
+  void resetGame() {
+    Field field = new Field(1, 1);
+    field.mineField();
+    field.isOpen();
+
+    assertFalse(field.isOpen());
+    assertFalse(field.mineField());
+
+    field.resetGame();
+    assertFalse(field.isOpen());
+    assertFalse(field.mineField());
+  }
+
+  @Test
+  void testToString() {
+  }
 }

@@ -69,8 +69,9 @@ public class Field {
     return marked;
   }
 
-  public void mineField() {
+  public boolean mineField() {
     mineField = true;
+    return false;
   }
 
   public boolean isOpen() {
@@ -78,5 +79,43 @@ public class Field {
   }
   public boolean isClosed() {
     return !isOpen();
+  }
+
+  public int getRow() {
+    return row;
+  }
+
+  public int getColumn() {
+    return column;
+  }
+
+  public boolean goalAchieved() {
+    boolean sortedOut = !mineField && open;
+    boolean unarmed   = mineField && marked;
+    return sortedOut || unarmed;
+  }
+
+  public long minesInTheNeighborhood (){
+    return neighborFields.stream().filter(value -> value.mineField).count();
+  }
+
+  public void resetGame(){
+    open      = false;
+    mineField = false;
+    marked    = false;
+  }
+  
+  public String toString(){
+    if(marked){
+      return "X";
+    } else if (open && mineField) {
+      return "*";
+    } else if (open && minesInTheNeighborhood() > 0) {
+      return Long.toString(minesInTheNeighborhood());
+    } else if (open) {
+      return " ";
+    } else {
+      return "?";
+    }
   }
 }

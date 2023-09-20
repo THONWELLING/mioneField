@@ -2,6 +2,7 @@ package com.thonwelling.models;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Predicate;
 
 public class Table {
 
@@ -34,6 +35,22 @@ private int columnsQuantity;
     }
   }
   private void sortMines() {
+    long armedMines = 0;
+    Predicate<Field> minade = field -> field.isMined();
+    do {
+      armedMines = fields.stream().filter(minade).count();
+      int randomic = (int) (Math.random() * fields.size());
+
+      fields.get(randomic).mineField();
+    } while (armedMines < minesQuantity);
+  }
+
+  public boolean goalAchieved() {
+    return fields.stream().allMatch(field -> field.goalAchieved());
+  }
+
+  public void resetGame() {
+    fields.stream().forEach(field -> field.resetGame());
     sortMines();
   }
 

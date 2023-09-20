@@ -74,6 +74,9 @@ public class Field {
     return false;
   }
 
+  public boolean isMined() {
+    return mineField;
+  }
   public boolean isOpen() {
     return open;
   }

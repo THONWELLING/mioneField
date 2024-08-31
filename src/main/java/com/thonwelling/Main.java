@@ -1,16 +1,15 @@
 package com.thonwelling;
 
 import com.thonwelling.models.Table;
+import com.thonwelling.view.TableConsole;
+
 
 public class Main {
   public static void main(String[] args) {
 
-    System.out.println("Hello world!");
+    System.out.println("CAMPO MINADO!");
     Table table = new Table(6, 6, 6);
+    new TableConsole(table);
 
-    table.openField(3, 3);
-    table.changeMarcation(4,4);
-    table.changeMarcation(4,5);
-    System.out.println(table);
   }
 }
